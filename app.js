@@ -1,17 +1,25 @@
 // DOM Manipuláció: js-el módosítjuk a html-t és a css-t
 
 let scores, roundScore, activePlayer;
+
+// Homework1: új változót deklarálok az előző dobásnak:
+let previousDices;
+
 function init() {
   // a két játékos pontszáma, egy 2 elemű tömbben lesz tárolva...
   // az első elem az első játékos pontszáma, a második a második játékos
   // pontszáma
   scores = [0, 0];
 
-  // az aktuális játékos kör alatt megszerezett pontnai
+  // az aktuális játékos kör alatt megszerezett pontjai
   roundScore = 0;
 
   // mindíg az első játékos kezd
   activePlayer = 0;
+
+  // Homework1: 
+
+  previousDices = [0, 0]
 
   // beállítjuk a kezdő értékeket a UI-on is
   document.querySelector('#score-0').textContent = 0;
@@ -42,16 +50,32 @@ document.querySelector('.btn-new').addEventListener('click', init);
 
 // ha a roll dice gombra kattint a user...
 document.querySelector('.btn-roll').addEventListener('click', function () {
-  // console.log('rolling the dice...');
+  console.log('rolling the dice...');
   // 1. generálunk egy random számot 1 és 6 között
   let dice = Math.floor(Math.random() * 6) + 1;
-  // console.log(dice);
+
+  // Homework1: aktív játékos dobása a konzolra kiírva:
+  console.log('current dice of palyer' + activePlayer + ':' + dice);
+
   // 2. Az eredményt megjelnítjük a UI-on:
   let diceDOM = document.querySelector('.dice');
   diceDOM.style.display = 'block';
   //                            👇🏻string concatenation, sztring összefűzés
   diceDOM.setAttribute('src', 'dice-' + dice + '.png');
 
+  // Homework1: Ha az aktív játékos két 6-st dob, 0-zuk az eredményt, kov. jatékos jön
+  console.log('previous dice of a player' + activePlayer + ":" + previousDices[activePlayer]);
+
+  if ((dice === 6) && (previousDices[activePlayer] === 6)) {
+    scores[activePlayer] = 0;
+
+    document.querySelector('#current-' + activePlayer).textContent = 0;
+
+    nextPlayer();
+  }
+
+  // Tároljuk a tömbben a játékos előző dobását 
+  previousDices[activePlayer] = dice;
 
   // Ha a ha játékos 1-est dob, a roundScore értékét elveszti, és
   // a következő játékos jön.
