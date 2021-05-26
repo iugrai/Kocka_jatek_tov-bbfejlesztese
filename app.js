@@ -1,4 +1,4 @@
-// DOM Manipuláció: js-el módosítjuk a html-t és a css-t
+//  DOM Manipuláció: js-el módosítjuk a html-t és a css-t
 
 let scores, roundScore, activePlayer;
 function init() {
@@ -113,6 +113,5 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
     nextPlayer();
   }
 });
-
 
 
