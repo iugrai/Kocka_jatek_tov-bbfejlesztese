@@ -4,6 +4,9 @@ let scores, roundScore, activePlayer;
 
 // Homework1: új változót deklarálok az előző dobásnak:
 let previousDices;
+// Homework2: új változó a maximálisan elérhető pontszámnak
+
+let finalScore;
 
 function init() {
   // a két játékos pontszáma, egy 2 elemű tömbben lesz tárolva...
@@ -17,9 +20,9 @@ function init() {
   // mindíg az első játékos kezd
   activePlayer = 0;
 
-  // Homework1: 
+  // Homework1: előző dobás kezdő értékei egy tömbben tároljuk
 
-  previousDices = [0, 0]
+  previousDices = [0, 0];
 
   // beállítjuk a kezdő értékeket a UI-on is
   document.querySelector('#score-0').textContent = 0;
@@ -46,7 +49,25 @@ function init() {
 }
 
 init();
+
+// Homework2: Lekérdezzük, hogy mit írt-e be értéket a játékos, ha igen akkor updateljuk a finalScore-t
+document.querySelector('.btn-new').addEventListener('click', function () {
+
+  if (parseInt(document.getElementsByClassName('final-score')[0].value) > 0) {
+    finalScore = parseInt(document.getElementsByClassName('final-score')[0].value);
+  }
+
+  else {
+    finalScore = 100;
+  }
+  console.log('Winning score is' + ':' + finalScore);
+});
+
+
+
 document.querySelector('.btn-new').addEventListener('click', init);
+
+
 
 // ha a roll dice gombra kattint a user...
 document.querySelector('.btn-roll').addEventListener('click', function () {
@@ -55,7 +76,7 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
   let dice = Math.floor(Math.random() * 6) + 1;
 
   // Homework1: aktív játékos dobása a konzolra kiírva:
-  console.log('current dice of palyer' + activePlayer + ':' + dice);
+  console.log('current dice of player' + activePlayer + ':' + dice);
 
   // 2. Az eredményt megjelnítjük a UI-on:
   let diceDOM = document.querySelector('.dice');
@@ -64,7 +85,7 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
   diceDOM.setAttribute('src', 'dice-' + dice + '.png');
 
   // Homework1: Ha az aktív játékos két 6-st dob, 0-zuk az eredményt, kov. jatékos jön
-  console.log('previous dice of a player' + activePlayer + ":" + previousDices[activePlayer]);
+  console.log('previous dice of a player' + activePlayer + ':' + previousDices[activePlayer]);
 
   if ((dice === 6) && (previousDices[activePlayer] === 6)) {
     scores[activePlayer] = 0;
@@ -122,7 +143,7 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
   document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
   // ellenőrizzük hogy van e nyertes:
-  if (scores[activePlayer] >= 20) {
+  if (scores[activePlayer] >= finalScore) {
     // játék vége
     document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
     document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
